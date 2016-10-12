@@ -3,7 +3,9 @@ A Ruby script that scans all swift code from the specified folders and files and
 
 # Usage:
 In terminal run:
+```ruby
 $ ruby generateEntityDiagram.rb
+```
 If you don't specify any command line arguments then the script will search for all swift files in the script's main directory.
 You can specify any number of command line arguments which should be existing directory or file paths. The directories will be searched in depth for swift files recursively.
 

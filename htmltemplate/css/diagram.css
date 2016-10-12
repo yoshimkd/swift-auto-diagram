@@ -1,0 +1,304 @@
+/* RESET CSS */
+a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,p,pre,q,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;outline:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+/* Enter our css here */
+body { font-family: Courier, monospace; }
+div.entity {
+    min-width: 200px;
+    max-width: 400px;
+    font-size: 13px;
+    position: absolute;
+}
+.entity-class, .entity-property, .entity-method, .entity-extension, .entity-protocol, .entity-struct  {
+    padding: 5px;
+}
+
+.entity-class, .entity-extension, .entity-protocol, .entity-struct {
+    font-weight: bold; 
+    color: #fff; 
+    text-align: center;
+    border: 1px solid #333;
+}
+
+.entity-class .type, .entity-extension .type, .entity-protocol .type, .entity-struct .type {
+    font-size: 11px;
+    font-style: italic;
+}
+
+.entity-class {
+    background-color: #3a69d8; 
+}
+
+.entity-struct {
+    background-color: #3a69d8; 
+}
+
+.entity-protocol {
+    background-color: #9a2a9e;
+}
+
+.entity-extension {
+    background-color: #2a8e9e;
+}
+
+.entity-class span {
+    color:#fff;
+}
+
+.entity-properties {
+    border: 1px solid #333;
+    border-top: none;
+}
+
+.entity-property {
+    background-color: #8A8A8A;
+}
+
+.entity-property-type, .entity-method-type {
+    font-size: 11px;
+    font-style: italic;
+}
+
+.entity-methods {
+    border: 1px solid #333;
+    border-top: none;
+}
+
+.entity-method {
+    background-color: #777;
+}
+
+#classDiagram {
+    width: 600px;
+    height: 600px;
+    border: 1px solid lightgray;
+    background-color:#eeeeee;
+}
+
+.entity-property-private span, .entity-property-fileprivat span, .entity-method-private span, .entity-method-fileprivate span {
+    color: #f00;
+}
+
+.entity-property-internal span, .entity-method-internal span {
+    color: #C5E300;
+}
+
+.entity-property-public span, .entity-property-open span, .entity-method-public span, .entity-method-open span {
+    color: #0f0;
+}
+
+/* Loading animation */
+@-webkit-keyframes uil-ripple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0 0 0 0;
+  }
+  33% {
+    width: 44%;
+    height: 44%;
+    margin: -22% 0 0 -22%;
+    opacity: 1;
+  }
+  100% {
+    width: 88%;
+    height: 88%;
+    margin: -44% 0 0 -44%;
+    opacity: 0;
+  }
+}
+@-webkit-keyframes uil-ripple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0 0 0 0;
+  }
+  33% {
+    width: 44%;
+    height: 44%;
+    margin: -22% 0 0 -22%;
+    opacity: 1;
+  }
+  100% {
+    width: 88%;
+    height: 88%;
+    margin: -44% 0 0 -44%;
+    opacity: 0;
+  }
+}
+@-moz-keyframes uil-ripple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0 0 0 0;
+  }
+  33% {
+    width: 44%;
+    height: 44%;
+    margin: -22% 0 0 -22%;
+    opacity: 1;
+  }
+  100% {
+    width: 88%;
+    height: 88%;
+    margin: -44% 0 0 -44%;
+    opacity: 0;
+  }
+}
+@-ms-keyframes uil-ripple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0 0 0 0;
+  }
+  33% {
+    width: 44%;
+    height: 44%;
+    margin: -22% 0 0 -22%;
+    opacity: 1;
+  }
+  100% {
+    width: 88%;
+    height: 88%;
+    margin: -44% 0 0 -44%;
+    opacity: 0;
+  }
+}
+@-moz-keyframes uil-ripple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0 0 0 0;
+  }
+  33% {
+    width: 44%;
+    height: 44%;
+    margin: -22% 0 0 -22%;
+    opacity: 1;
+  }
+  100% {
+    width: 88%;
+    height: 88%;
+    margin: -44% 0 0 -44%;
+    opacity: 0;
+  }
+}
+@-webkit-keyframes uil-ripple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0 0 0 0;
+  }
+  33% {
+    width: 44%;
+    height: 44%;
+    margin: -22% 0 0 -22%;
+    opacity: 1;
+  }
+  100% {
+    width: 88%;
+    height: 88%;
+    margin: -44% 0 0 -44%;
+    opacity: 0;
+  }
+}
+@-o-keyframes uil-ripple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0 0 0 0;
+  }
+  33% {
+    width: 44%;
+    height: 44%;
+    margin: -22% 0 0 -22%;
+    opacity: 1;
+  }
+  100% {
+    width: 88%;
+    height: 88%;
+    margin: -44% 0 0 -44%;
+    opacity: 0;
+  }
+}
+@keyframes uil-ripple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0 0 0 0;
+  }
+  33% {
+    width: 44%;
+    height: 44%;
+    margin: -22% 0 0 -22%;
+    opacity: 1;
+  }
+  100% {
+    width: 88%;
+    height: 88%;
+    margin: -44% 0 0 -44%;
+    opacity: 0;
+  }
+}
+.uil-ripple-css {
+  background: none;
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+.uil-ripple-css div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  border-radius: 50%;
+  border-width: 10px;
+  border-style: solid;
+  -ms-animation: uil-ripple 1.5s ease-out infinite;
+  -moz-animation: uil-ripple 1.5s ease-out infinite;
+  -webkit-animation: uil-ripple 1.5s ease-out infinite;
+  -o-animation: uil-ripple 1.5s ease-out infinite;
+  animation: uil-ripple 1.5s ease-out infinite;
+}
+.uil-ripple-css div:nth-of-type(1) {
+  border-color: #a1a1a1;
+}
+.uil-ripple-css div:nth-of-type(2) {
+  border-color: #c9c9c9;
+  -ms-animation-delay: 0.75s;
+  -moz-animation-delay: 0.75s;
+  -webkit-animation-delay: 0.75s;
+  -o-animation-delay: 0.75s;
+  animation-delay: 0.75s;
+}
+
+.loading-overlay {
+    width:100%;
+    height:100%;
+    background-color:#fff;
+    position:absolute;
+    left:0;
+    top:0;
+}
+
+.uil-ripple-css {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  margin-top: -50px;
+  margin-left: -50px;
+}
+
+img { display: none; }

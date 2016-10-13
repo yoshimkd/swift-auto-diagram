@@ -52,12 +52,6 @@ end
 
 def createEntities codeString
   return allEntities(codeString).each { |entity|
-    containedEntitiesCodeStrings = entity.containedEntities.map { |containedEntity|
-      entity.contentsCodeString[(containedEntity.startIndex - entity.contentsStartIndex)..(containedEntity.contentsEndIndex - entity.contentsStartIndex)]
-    }.each { |containedEntityCodeString|
-      entity.contentsCodeString.gsub! containedEntityCodeString, ''
-    }
-
     entity.methods =
     entity.typeString == 'protocol' ?
     (allProtocolMethods(entity.contentsCodeString) +
@@ -93,8 +87,10 @@ def allEntities codeString
     subEntities = allEntities contentsCodeString
     entities += subEntities
 
-    subEntities.each { |subEntity|
-      contentsCodeString.slice! subEntity.startIndex, subEntity.contentsEndIndex
+    subEntitiesContents = subEntities.map { |subEntity|
+      contentsCodeString[(subEntity.startIndex)..(subEntity.contentsEndIndex)]
+    }.each { |subEntityContents|
+      contentsCodeString.gsub! subEntityContents, ''
     }
 
     newEntity = EntityType.new(entityType, entityName, inheritedEntities,
@@ -251,31 +247,32 @@ end
 
 def allProperties codeString
   properties = []
-  propertyRegex = /(?<otherKeywords>(open|public|internal|fileprivate|private|static|class|struct|weak|unowned|\s)+)(?<name>(var|let)\s+(\w+)\s*((?!open|public|internal|fileprivate|private|static|class|struct|var|let|weak|unowned|@IBOutlet|@IBAction|@IBInspectable|@IBDesignable)[^{=])*)/
+  propertyRegex = /(?<otherKeywords>(open|public|internal|fileprivate|private|static|class|struct|weak|unowned|\s)+)?(?<name>(var|let)\s+(\w+)\s*((?!open|public|internal|fileprivate|private|static|class|struct|var|let|weak|unowned|@IBOutlet|@IBAction|@IBInspectable|@IBDesignable)[^{=])*)/
   codeString.scan(propertyRegex) {
     matchData = Regexp.last_match
-
-    otherKeywords = matchData['otherKeywords'].strip.split(' ')
 
     accessLevel = 'internal'
     type = 'instance'
 
-    otherKeywords.each { |otherKeyword|
-      if otherKeyword == 'open' ||
-        otherKeyword == 'public' ||
-        otherKeyword == 'internal' ||
-        otherKeyword == 'fileprivate' ||
-        otherKeyword == 'private'
+    if matchData['otherKeywords']
+      otherKeywords = matchData['otherKeywords'].strip.split(' ')
+      otherKeywords.each { |otherKeyword|
+        if otherKeyword == 'open' ||
+          otherKeyword == 'public' ||
+          otherKeyword == 'internal' ||
+          otherKeyword == 'fileprivate' ||
+          otherKeyword == 'private'
 
-        accessLevel = otherKeyword
+          accessLevel = otherKeyword
 
-      elsif otherKeyword == 'static' ||
-        otherKeyword == 'class'
+        elsif otherKeyword == 'static' ||
+          otherKeyword == 'class'
 
-        type = 'type'
+          type = 'type'
 
-      end
-    }
+        end
+      }
+    end
 
     properties << SwiftProperty.new(matchData['name'], type, accessLevel)
   }

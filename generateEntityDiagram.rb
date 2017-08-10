@@ -5,6 +5,7 @@ require_relative 'rubyResources/swiftProperty.rb'
 require_relative 'rubyResources/entity.rb'
 require_relative 'rubyResources/entityExtension.rb'
 require_relative 'rubyResources/entityType.rb'
+require_relative 'rubyResources/swiftEnumCase.rb'
 require_relative 'rubyResources/helpers.rb'
 
 require 'optparse'

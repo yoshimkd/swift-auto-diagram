@@ -60,12 +60,13 @@ def createEntities codeString
     allInits(entity.contentsCodeString))
 
     entity.properties = allProperties entity.contentsCodeString
+    entity.cases = allCases entity.contentsCodeString
   }
 end
 
 def allEntities codeString
   entities = []
-  entityRegex = /(?<entityType>(class|struct|protocol))\s+(?!(var|open|public|internal|fileprivate|private|func))(?<name>\w+)(?<inheritancePart>([^{]*)?)(?<contentsCodeString>{(?>[^{}]|\g<contentsCodeString>)*})/
+  entityRegex = /(?<entityType>(class|struct|protocol|enum))\s+(?!(var|open|public|internal|fileprivate|private|func))(?<name>\w+)(?<inheritancePart>([^{]*)?)(?<contentsCodeString>{(?>[^{}]|\g<contentsCodeString>)*})/
 
   codeString.scan(entityRegex) {
     matchData = Regexp.last_match
@@ -128,7 +129,7 @@ end
 
 def allMethods codeString
   methods = []
-  methodRegex =/(?<otherKeywords>(open|public|internal|fileprivate|private|static|class|\s)*)\bfunc\s+(?<name>([^{]*))(?<methodBody>{(?>[^{}]|\g<methodBody>)*})/
+  methodRegex =/(?<otherKeywords>(override|open|public|internal|fileprivate|private|static|class|\s)*)\bfunc\s+(?<name>([^{]*))(?<methodBody>{(?>[^{}]|\g<methodBody>)*})/
 
   methodsStrings = []
 
@@ -170,7 +171,7 @@ end
 
 def allInits codeString
   methods = []
-  methodRegex = /(?<otherKeywords>(open|public|internal|fileprivate|private|\s)+)(?<name>(init[^{]*))(?<methodBody>{(?>[^{}]|\g<methodBody>)*})/
+  methodRegex = /(?<otherKeywords>(override|open|public|internal|fileprivate|private|\s)+)(?<name>(init[^{]*))(?<methodBody>{(?>[^{}]|\g<methodBody>)*})/
 
   methodsStrings = []
 
@@ -278,6 +279,23 @@ def allProperties codeString
   }
 
   return properties
+end
+
+def allCases codeString
+  cases = []
+  caseRegex = /case\s+(?<cases>[\w\,\s]+)/
+  codeString.scan(caseRegex) {
+    matchData = Regexp.last_match
+
+    accessLevel = 'internal'
+    type = 'instance'
+
+    if matchData['cases']
+      cases += matchData['cases'].strip.split(', ')
+    end
+  }
+
+  return cases.map{|c| SwiftEnumCase.new(c)}
 end
 
 def parseInheritedEntities entities

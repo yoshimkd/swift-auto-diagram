@@ -21,6 +21,11 @@
             <div></div>
         </div>
     </div>
+    <script id="case" type="x-tmpl-mustache">
+        <p class="entity-case case">
+            <span class="entity-case-name">.{{name}}</span>
+        </p>
+    </script>
     <script id="property" type="x-tmpl-mustache">
         <p class="entity-property entity-property-{{accessLevel}}" title="{{accessLevel}} property">
             <span class="entity-property-type">{{type}}</span>
@@ -49,6 +54,11 @@
                 {{{methods}}}
             </section>
             {{/methods}}
+            {{#cases}}
+            <section class="entity-cases">
+                {{{cases}}}
+            </section>
+            {{/cases}}
         </div>
     </script>
     <script id="data" type="x-tmpl-mustache">

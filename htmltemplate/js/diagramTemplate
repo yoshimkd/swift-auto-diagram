@@ -7,17 +7,20 @@ var renderedEntities = [];
 var useCentralNode = true;
 
 var templates = {
+  case: undefined,
   property: undefined,
   method: undefined,
   entity: undefined,
   data: undefined,
 
   setup: function() {
+    this.case = document.getElementById("case").innerHTML;
     this.property = document.getElementById("property").innerHTML;
     this.method = document.getElementById("method").innerHTML;
     this.entity = document.getElementById("entity").innerHTML;
     this.data = document.getElementById("data").innerHTML;
 
+    Mustache.parse(this.case)
     Mustache.parse(this.property);
     Mustache.parse(this.method);
     Mustache.parse(this.entity);
@@ -42,7 +45,8 @@ function bindValues() {
             "name": entity.name == undefined ? entity.typeString : entity.name,
             "type": entity.typeString,
             "props": renderTemplate(templates.property, entity.properties),
-            "methods": renderTemplate(templates.method, entity.methods)
+            "methods": renderTemplate(templates.method, entity.methods),
+            "cases": renderTemplate(templates.case, entity.cases)
         };
         var rendered = Mustache.render(templates.entity, entityToBind);
         var txt = rendered;

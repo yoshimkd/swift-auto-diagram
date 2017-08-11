@@ -13,6 +13,7 @@ class Entity
 
   attr_accessor :methods
   attr_accessor :properties
+  attr_accessor :cases
 
   def initialize(inheritedEntities, typeString, contentsCodeString)
     @id = @@id
@@ -27,6 +28,7 @@ class Entity
     @protocols = []
     @methods = []
     @properties = []
+    @cases = []
   end
 
   def to_hash
@@ -47,6 +49,10 @@ class Entity
       hash['protocols'] = @protocols.map { |protocol|
         protocol.id
       }
+    end
+
+    if !@cases.empty?
+      hash['cases'] = @cases
     end
 
     return hash

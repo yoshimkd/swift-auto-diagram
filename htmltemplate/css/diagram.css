@@ -9,18 +9,18 @@ div.entity {
     font-size: 13px;
     position: absolute;
 }
-.entity-class, .entity-property, .entity-method, .entity-extension, .entity-protocol, .entity-struct  {
+.entity-class, .entity-property, .entity-method, .entity-extension, .entity-protocol, .entity-case, .entity-struct  {
     padding: 5px;
 }
 
-.entity-class, .entity-extension, .entity-protocol, .entity-struct {
+.entity-class, .entity-extension, .entity-protocol, .entity-struct, .entity-enum {
     font-weight: bold; 
     color: #fff; 
     text-align: center;
     border: 1px solid #333;
 }
 
-.entity-class .type, .entity-extension .type, .entity-protocol .type, .entity-struct .type {
+.entity-class .type, .entity-extension .type, .entity-protocol .type, .entity-struct .type, .entity-enum .type {
     font-size: 11px;
     font-style: italic;
 }
@@ -37,12 +37,29 @@ div.entity {
     background-color: #9a2a9e;
 }
 
+.entity-enum {
+    background-color: #aaaa00;
+}
+
 .entity-extension {
     background-color: #2a8e9e;
 }
 
 .entity-class span {
     color:#fff;
+}
+
+.entity-cases {
+    border: 1px solid #333;
+    border-top: none;
+}
+
+.entity-case {
+    background-color: #8A8A8A;
+}
+
+.entity-case span {
+    color: #C5E300;
 }
 
 .entity-properties {

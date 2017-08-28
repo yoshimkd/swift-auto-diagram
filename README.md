@@ -17,7 +17,8 @@ The state of the project is still in a beta version which means it still may not
 We hope to see more contributors help make this a wonderful developer tool even better.
 
 # Initial creators:
-Jovan Jovanovski & Zdravko Nikolovski
+https://github.com/yoshimkd
+Zdravko Nikolovski
 
 # Contributors:
 https://github.com/ivanfoong

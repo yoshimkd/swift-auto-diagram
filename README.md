@@ -16,5 +16,8 @@ https://martinmitrevski.com/2016/10/12/swift-class-diagrams-and-more/
 The state of the project is still in a beta version which means it still may not run or may be not accurate for all projects.
 We hope to see more contributors help make this a wonderful developer tool even better.
 
-# Initial contributors:
+# Initial creators:
 Jovan Jovanovski & Zdravko Nikolovski
+
+# Contributors:
+https://github.com/ivanfoong

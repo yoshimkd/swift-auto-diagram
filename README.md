@@ -18,7 +18,7 @@ We hope to see more contributors help make this a wonderful developer tool even 
 
 # Initial creators:
 https://github.com/yoshimkd
-Zdravko Nikolovski
+https://github.com/ZdravkoN
 
 # Contributors:
 https://github.com/ivanfoong

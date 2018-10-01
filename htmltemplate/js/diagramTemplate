@@ -1,5 +1,5 @@
 var entities =
-$entities
+ $entities
 ;
 
 var renderedEntities = [];
@@ -37,24 +37,8 @@ var centralEdgeLengthMultiplier = 1;
 var network = undefined;
 
 function bindValues() {
-    templates.setup();
-
-    for (var i = 0; i < entities.length; i++) {
-        var entity = entities[i];
-        var entityToBind = {
-            "name": entity.name == undefined ? entity.typeString : entity.name,
-            "type": entity.typeString,
-            "props": renderTemplate(templates.property, entity.properties),
-            "methods": renderTemplate(templates.method, entity.methods),
-            "cases": renderTemplate(templates.case, entity.cases)
-        };
-        var rendered = Mustache.render(templates.entity, entityToBind);
-        var txt = rendered;
-        document.getElementById("entities").innerHTML += rendered;
-    }
-
-    setSize();
-    setTimeout(startCreatingDiagram, 100);
+  setSize();
+  startCreatingDiagram();
 }
 
 function renderTemplate(template, list) {
@@ -69,49 +53,11 @@ function renderTemplate(template, list) {
     return undefined;
 }
 
-function getElementSizes() {
-  var strings = [];
-  var elements = $("img");
-
-  for (var i = 0; i < elements.length; i++) {
-      var element = elements[i];
-      
-      var elementData = {
-        width: element.offsetWidth,
-        height: element.offsetHeight
-      };
-      strings.push(elementData);
-  }
-  return strings;
-}
-
-function renderEntity(index) {
-  if (index >= entities.length) {
-    // create the diagram
-    $("#entities").html("");
-    setTimeout(createDiagram, 100);
-    return;
-  }
-  html2canvas($(".entity")[index], {
-    onrendered: function(canvas) {
-      var data = canvas.toDataURL();
-      renderedEntities.push(data);
-      var img = Mustache.render(templates.data, {data: data}); 
-      $(document.body).append(img);
-
-      renderEntity(index + 1);
-    }
-  });
-}
-
 function startCreatingDiagram() {
-  renderedEntities = [];
-  renderEntity(0);
+  createDiagram();
 }
 
 function createDiagram() {
-  var entitySizes = getElementSizes();
-
   var nodes = [];
   var edges = [];
 
@@ -119,16 +65,27 @@ function createDiagram() {
   var maxEdgeLength = 0;
   for (var i = 0; i < entities.length; i++) {
     var entity = entities[i];
-    var data = entitySizes[i];
-    var length = Math.max(data.width, data.height) * 1.5;
     var hasDependencies = false;
 
     maxEdgeLength = Math.max(maxEdgeLength, length);
 
-    nodes.push({id: entity.id, label: undefined, image: renderedEntities[i], shape: "image", shapeProperties: {useImageSize: true } });
+    nodes.push(
+      {
+        id: entity.id,
+        label: entity.name,
+      }
+    );
     if (entity.superClass != undefined && entity.superClass > 0) {
-      edges.push({from: entity.superClass, to: entity.id, length: length, color: colorSuperClass, label: "inherits", arrows: {from: true} });
-      
+      edges.push(
+        {
+          from: entity.superClass,
+          to: entity.id,
+          color: colorSuperClass,
+          label: "inherits",
+          arrows: {from: true}
+        }
+      );
+
       hasDependencies = true;
     }
 
@@ -167,7 +124,10 @@ function createDiagram() {
           "avoidOverlap": 1
         }
       },
-      //configure: true
+      "interaction": {
+        "navigationButtons": true,
+        "keyboard": true,
+      }
   };
   network = new vis.Network(container, dataToShow, options);
 
@@ -194,7 +154,7 @@ function getEdges(entityId, arrayToBind, edgeLength, label, color, arrows) {
         result.push({from: entityId, to: arrayToBind[i], length: edgeLength, color: color, label: label, arrows: arrows });
       }
   }
-  return result;   
+  return result;
 }
 
 function setSize() {

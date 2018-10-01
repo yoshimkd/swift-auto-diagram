@@ -124,6 +124,10 @@ function createDiagram() {
           "avoidOverlap": 1
         }
       },
+      "interaction": {
+        "navigationButtons": true,
+        "keyboard": true,
+      }
   };
   network = new vis.Network(container, dataToShow, options);
 

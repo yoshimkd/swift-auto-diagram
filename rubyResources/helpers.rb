@@ -372,10 +372,11 @@ def parseExtensions extensions, entities
   }
 end
 
-def updateEntitiesJSONStringInScript entitiesStrings, scriptFileName, scriptTemplateString
-  scriptTemplateString = File.open(scriptTemplateString, 'r').read
-  scriptTemplateString.gsub! '$entities', entitiesStrings
-  File.write scriptFileName, scriptTemplateString
+def updateEntitiesJSONStringInScript entitiesStrings, scriptFileName
+  # scriptTemplateString
+  string = 'var entities = $entities '
+  string.gsub! '$entities', entitiesStrings
+  File.write scriptFileName, string
 end
 
 def openFile fileName

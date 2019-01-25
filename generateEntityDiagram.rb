@@ -12,27 +12,27 @@ require 'optparse'
 require 'json'
 
 parser = OptionParser.new do |options|
-	options.on('-v', '--verbose', 'Displays full logs') do
+  options.on('-v', '--verbose', 'Displays full logs') do
     Logger.log.level = Logger::DEBUG
-    Logger.log.info "Will display full logs"
-	end
+    Logger.log.info 'Will display full logs'
+  end
 
-	options.on('-h', '--help', 'Displays Help') do
-		puts options
-		exit
-	end
+  options.on('-h', '--help', 'Displays Help') do
+    puts options
+    exit
+  end
 end
 
 parser.parse!
 
-Logger.log.info "Starting generation of class diagram"
+Logger.log.info 'Starting generation of class diagram'
 
 $allSwiftFilePaths = []
 
 if !ARGV.empty?
   Logger.log.info 'Checking the command line arguments'
 
-  ARGV.each { |folderOrFile|
+  ARGV.each do |folderOrFile|
     if File.directory? folderOrFile
       $allSwiftFilePaths += (Dir.glob folderOrFile + '/**/*.swift')
       Logger.log.info 'Added the directory\'s file path and all it\'s contents: ' + folderOrFile + ' to the target'
@@ -42,7 +42,7 @@ if !ARGV.empty?
     else
       abort 'The argument \'' + folderOrFile + '\' is not a directory and does not have a \'.swift\' extension'
     end
-  }
+  end
 else
   Logger.log.info 'No command line arguments supplied meaning this script\'s containing directory will be the target'
   $allSwiftFilePaths = Dir.glob __dir__ + '/**/*.swift'
@@ -55,7 +55,6 @@ Logger.log.info 'The targeted swift files: ' + $allSwiftFilePaths.to_s + "\n"
 resourcesFilePath = __dir__ + '/htmltemplate/js/'
 
 updateEntitiesJSONStringInScript entitiesFromFiles.to_json,
-resourcesFilePath + 'diagram.js',
-resourcesFilePath + 'diagramTemplate'
+                                 resourcesFilePath + 'parser-output.js'
 
 openFile __dir__ + '/htmltemplate/diagram.html'

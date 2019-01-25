@@ -1,5 +1,4 @@
 class EntityExtension < Entity
-
   attr_accessor :extendedEntityName
 
   def initialize(inheritedEntities, extendedEntityName, contentsCodeString)
@@ -7,5 +6,4 @@ class EntityExtension < Entity
 
     @extendedEntityName = extendedEntityName
   end
-
 end

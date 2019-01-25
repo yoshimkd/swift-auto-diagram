@@ -1,3 +1,2 @@
 class SwiftProperty < SwiftEntityElement
-
 end

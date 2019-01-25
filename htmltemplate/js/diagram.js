@@ -113,7 +113,7 @@ function createDiagram() {
   };
 
   // tested at http://visjs.org/examples/network/physics/physicsConfiguration.html
-  const options = {
+  let options = {
     edges: {
       smooth: false
     },

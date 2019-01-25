@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require_relative 'rubyResources/logger.rb'
 require_relative 'rubyResources/swiftEntityElement.rb'
 require_relative 'rubyResources/swiftMethod.rb'

@@ -2,7 +2,7 @@ def entitiesFromFiles
   entities = []
   extensions = []
 
-  $allSwiftFilePaths.each { |fileName|
+  $allSwiftFilePaths.each do |fileName|
     fileContents = File.open(fileName, 'r:UTF-8').read
 
     Logger.log.info 'Original contents of file ' + fileName + ':'
@@ -14,7 +14,7 @@ def entitiesFromFiles
     extensions += allExtensions cleanedFileContents
 
     Logger.log.info 'Finished parsing contents of file ' + fileName + "\n"
-  }
+  end
 
   Logger.log.info 'Starting parsing inherited entities'
   parseInheritedEntities entities
@@ -24,10 +24,10 @@ def entitiesFromFiles
   entities += parseExtensions extensions, entities
   Logger.log.info 'Finished parsing extensions'
 
-  return entities
+  entities
 end
 
-def removeCommentsAndStringsInCodeString codeString
+def removeCommentsAndStringsInCodeString(codeString)
   codeString.gsub! /".*"/, ''
 
   Logger.log.info 'Removed strings from the content. Updated contents:'
@@ -47,35 +47,35 @@ def removeCommentsAndStringsInCodeString codeString
   Logger.log.info 'Removed single line comments from the content. Updated contents:'
   Logger.log.info Logger.safeCodeContents(codeString)
 
-  return codeString
+  codeString
 end
 
-def createEntities codeString
-  return allEntities(codeString).each { |entity|
+def createEntities(codeString)
+  allEntities(codeString).each do |entity|
     entity.methods =
-    entity.typeString == 'protocol' ?
-    (allProtocolMethods(entity.contentsCodeString) +
-    allProtocolInits(entity.contentsCodeString)) :
-    (allMethods(entity.contentsCodeString) +
-    allInits(entity.contentsCodeString))
+      entity.typeString == 'protocol' ?
+      (allProtocolMethods(entity.contentsCodeString) +
+      allProtocolInits(entity.contentsCodeString)) :
+      (allMethods(entity.contentsCodeString) +
+      allInits(entity.contentsCodeString))
 
     entity.properties = allProperties entity.contentsCodeString
     entity.cases = allCases entity.contentsCodeString
-  }
+  end
 end
 
-def allEntities codeString
+def allEntities(codeString)
   entities = []
   entityRegex = /(?<entityType>(class|struct|protocol|enum))\s+(?!(var|open|public|internal|fileprivate|private|func))(?<name>\w+)(?<genericPart>(<.*>)?)(?<inheritancePart>([^{]*)?)(?<contentsCodeString>{(?>[^{}]|\g<contentsCodeString>)*})/
 
-  codeString.scan(entityRegex) {
+  codeString.scan(entityRegex) do
     matchData = Regexp.last_match
 
     entityType = matchData['entityType']
     entityName = matchData['name']
 
     inheritancePart = matchData['inheritancePart']
-    inheritancePart.gsub! ':', ''
+    inheritancePart.delete! ':'
     inheritancePart.gsub! /\s/, ''
     inheritedEntities = inheritancePart.split ','
 
@@ -88,52 +88,52 @@ def allEntities codeString
     subEntities = allEntities contentsCodeString
     entities += subEntities
 
-    subEntitiesContents = subEntities.map { |subEntity|
+    subEntitiesContents = subEntities.map do |subEntity|
       contentsCodeString[(subEntity.startIndex)..(subEntity.contentsEndIndex)]
-    }.each { |subEntityContents|
+    end.each do |subEntityContents|
       contentsCodeString.gsub! subEntityContents, ''
-    }
+    end
 
     newEntity = EntityType.new(entityType, entityName, inheritedEntities,
-    contentsCodeString, startIndex, contentsStartIndex, contentsEndIndex)
+                               contentsCodeString, startIndex, contentsStartIndex, contentsEndIndex)
 
     newEntity.containedEntities += subEntities
 
     entities << newEntity
-  }
+  end
 
-  return entities
+  entities
 end
 
-def allExtensions codeString
+def allExtensions(codeString)
   extensions = []
   extensionRegex = /extension\s+(?!(var|open|public|internal|fileprivate|private|func))(?<extendedEntityName>\w+)(?<protocols>(\s*:.+?)?)(?<generics>(\s+where\s+.+?)?)(?<contentsCodeString>{(?>[^{}]|\g<contentsCodeString>)*})/
 
-  codeString.scan(extensionRegex) {
+  codeString.scan(extensionRegex) do
     matchData = Regexp.last_match
 
     extendedEntityName = matchData['extendedEntityName']
 
     protocols = matchData['protocols']
-    protocols.gsub! ':', ''
+    protocols.delete! ':'
     protocols.gsub! /\s/, ''
     protocols = protocols.split ','
 
     contentsCodeString = matchData['contentsCodeString'][1...-1]
 
     extensions << EntityExtension.new(protocols, extendedEntityName, contentsCodeString)
-  }
+  end
 
-  return extensions
+  extensions
 end
 
-def allMethods codeString
+def allMethods(codeString)
   methods = []
-  methodRegex =/(?<otherKeywords>(override|open|public|internal|fileprivate|private|static|class|\s)*)\bfunc\s+(?<name>([^{]*))(?<methodBody>{(?>[^{}]|\g<methodBody>)*})/
+  methodRegex = /(?<otherKeywords>(override|open|public|internal|fileprivate|private|static|class|\s)*)\bfunc\s+(?<name>([^{]*))(?<methodBody>{(?>[^{}]|\g<methodBody>)*})/
 
   methodsStrings = []
 
-  codeString.scan(methodRegex) {
+  codeString.scan(methodRegex) do
     matchData = Regexp.last_match
 
     otherKeywords = matchData['otherKeywords'].gsub(/\s{2,}/, ' ').strip.split(' ')
@@ -141,41 +141,41 @@ def allMethods codeString
     accessLevel = 'internal'
     type = 'instance'
 
-    otherKeywords.each { |otherKeyword|
+    otherKeywords.each do |otherKeyword|
       if otherKeyword == 'open' ||
-        otherKeyword == 'public' ||
-        otherKeyword == 'internal' ||
-        otherKeyword == 'fileprivate' ||
-        otherKeyword == 'private'
+         otherKeyword == 'public' ||
+         otherKeyword == 'internal' ||
+         otherKeyword == 'fileprivate' ||
+         otherKeyword == 'private'
 
         accessLevel = otherKeyword
 
       elsif otherKeyword == 'static' ||
-        otherKeyword == 'class'
+            otherKeyword == 'class'
 
         type = 'type'
 
       end
-    }
+    end
 
     methods << SwiftMethod.new(matchData['name'], type, accessLevel)
     methodsStrings << matchData[0]
-  }
+  end
 
-  methodsStrings.each { |methodString|
+  methodsStrings.each do |methodString|
     codeString.gsub! methodString, ''
-  }
+  end
 
-  return methods
+  methods
 end
 
-def allInits codeString
+def allInits(codeString)
   methods = []
   methodRegex = /(?<otherKeywords>(override|open|public|internal|fileprivate|private|\s)+)(?<name>(init[^{]*))(?<methodBody>{(?>[^{}]|\g<methodBody>)*})/
 
   methodsStrings = []
 
-  codeString.scan(methodRegex) {
+  codeString.scan(methodRegex) do
     matchData = Regexp.last_match
 
     otherKeywords = matchData['otherKeywords'].gsub(/\s{2,}/, ' ').strip.split(' ')
@@ -183,73 +183,72 @@ def allInits codeString
     accessLevel = 'internal'
     type = 'instance'
 
-    otherKeywords.each { |otherKeyword|
-      if otherKeyword == 'open' ||
-        otherKeyword == 'public' ||
-        otherKeyword == 'internal' ||
-        otherKeyword == 'fileprivate' ||
-        otherKeyword == 'private'
+    otherKeywords.each do |otherKeyword|
+      next unless otherKeyword == 'open' ||
+                  otherKeyword == 'public' ||
+                  otherKeyword == 'internal' ||
+                  otherKeyword == 'fileprivate' ||
+                  otherKeyword == 'private'
 
-        accessLevel = otherKeyword
-      end
-    }
+      accessLevel = otherKeyword
+    end
 
     methods << SwiftMethod.new(matchData['name'], type, accessLevel)
     methodsStrings << matchData[0]
-  }
+  end
 
-  methodsStrings.each { |methodString|
+  methodsStrings.each do |methodString|
     codeString.gsub! methodString, ''
-  }
+  end
 
-  return methods
+  methods
 end
 
-def allProtocolMethods codeString
+def allProtocolMethods(codeString)
   methods = []
   methodRegex = /((?<isStatic>static)\s+)?func\s+(?<name>((?!static|var|weak|unowned|func|init)[\S\s])+)/
 
   methodsStrings = []
 
-  codeString.scan(methodRegex) {
+  codeString.scan(methodRegex) do
     matchData = Regexp.last_match
 
     type = matchData['isStatic'] == 'static' ? 'type' : 'instance'
 
     methods << SwiftMethod.new(matchData['name'].strip, type, 'internal')
     methodsStrings << matchData[0]
-  }
+  end
 
-  methodsStrings.each { |methodString|
+  methodsStrings.each do |methodString|
     codeString.gsub! methodString, ''
-  }
+  end
 
-  return methods
+  methods
 end
 
-def allProtocolInits codeString
+def allProtocolInits(codeString)
   methods = []
   methodRegex = /\binit\(((?!static|var|weak|unowned|func|init)[\S\s])+/
 
   methodsStrings = []
 
-  codeString.scan(methodRegex) {
+  codeString.scan(methodRegex) do
     matchData = Regexp.last_match
     methods << SwiftMethod.new(matchData[0].strip, 'instance', 'internal')
     methodsStrings << matchData[0]
-  }
+  end
 
-  methodsStrings.each { |methodString|
+  methodsStrings.each do |methodString|
     codeString.gsub! methodString, ''
-  }
+  end
 
-  return methods
+  methods
 end
 
-def allProperties codeString
+def allProperties(codeString)
   properties = []
   propertyRegex = /(?<otherKeywords>(open|public|internal|fileprivate|private|static|class|struct|weak|unowned|\s)+)?(?<name>(\bvar|\blet)\s+(\w+)\s*((?!open|public|internal|fileprivate|private|static|class|struct|var|let|weak|unowned|@IBOutlet|@IBAction|@IBInspectable|@IBDesignable)[^{=])*)/
-  codeString.scan(propertyRegex) {
+  codeString.scan(propertyRegex) do
     matchData = Regexp.last_match
 
     accessLevel = 'internal'
@@ -257,68 +256,62 @@ def allProperties codeString
 
     if matchData['otherKeywords']
       otherKeywords = matchData['otherKeywords'].strip.split(' ')
-      otherKeywords.each { |otherKeyword|
+      otherKeywords.each do |otherKeyword|
         if otherKeyword == 'open' ||
-          otherKeyword == 'public' ||
-          otherKeyword == 'internal' ||
-          otherKeyword == 'fileprivate' ||
-          otherKeyword == 'private'
+           otherKeyword == 'public' ||
+           otherKeyword == 'internal' ||
+           otherKeyword == 'fileprivate' ||
+           otherKeyword == 'private'
 
           accessLevel = otherKeyword
 
         elsif otherKeyword == 'static' ||
-          otherKeyword == 'class'
+              otherKeyword == 'class'
 
           type = 'type'
 
         end
-      }
+      end
     end
 
     properties << SwiftProperty.new(matchData['name'], type, accessLevel)
-  }
+  end
 
-  return properties
+  properties
 end
 
-def allCases codeString
+def allCases(codeString)
   cases = []
   caseRegex = /case\s+(?<cases>[\w\,\s]+)/
-  codeString.scan(caseRegex) {
+  codeString.scan(caseRegex) do
     matchData = Regexp.last_match
 
     accessLevel = 'internal'
     type = 'instance'
 
-    if matchData['cases']
-      cases += matchData['cases'].strip.split(', ')
-    end
-  }
+    cases += matchData['cases'].strip.split(', ') if matchData['cases']
+  end
 
-  return cases.map{|c| SwiftEnumCase.new(c)}
+  cases.map { |c| SwiftEnumCase.new(c) }
 end
 
-def parseInheritedEntities entities
-  entities.each { |entity|
-    entity.inheritedEntities.each_with_index { |inheritedEntity, index|
-
+def parseInheritedEntities(entities)
+  entities.each do |entity|
+    entity.inheritedEntities.each_with_index do |inheritedEntity, index|
       willBreak = false
       for searchedEntity in entities
-        if inheritedEntity == searchedEntity.name
-          if searchedEntity.typeString == 'class'
-            entity.superClass = searchedEntity
-          elsif searchedEntity.typeString == 'protocol'
-            entity.protocols << searchedEntity
-          end
-
-          willBreak = true
-          break
+        next unless inheritedEntity == searchedEntity.name
+        if searchedEntity.typeString == 'class'
+          entity.superClass = searchedEntity
+        elsif searchedEntity.typeString == 'protocol'
+          entity.protocols << searchedEntity
         end
-      end
 
-      if willBreak
+        willBreak = true
         break
       end
+
+      break if willBreak
 
       newEntity = EntityType.new((index == 0 ? 'class' : 'protocol'), inheritedEntity, [], nil, nil, nil, nil)
       entities << newEntity
@@ -327,58 +320,55 @@ def parseInheritedEntities entities
       else
         entity.protocols << newEntity
       end
-    }
-  }
+    end
+  end
 end
 
-def parseExtensions extensions, entities
-  extensions.each { |extension|
+def parseExtensions(extensions, entities)
+  extensions.each do |extension|
     extension.methods = allMethods(extension.contentsCodeString) +
-    allInits(extension.contentsCodeString)
+                        allInits(extension.contentsCodeString)
 
     extension.properties = allProperties extension.contentsCodeString
 
     willBreak = false
-    entities.each { |entity|
-      if extension.extendedEntityName == entity.name
-        entity.extensions << extension
-        willBreak = true
-        break
-      end
-    }
+    entities.each do |entity|
+      next unless extension.extendedEntityName == entity.name
+      entity.extensions << extension
+      willBreak = true
+      break
+    end
 
-    if !willBreak
+    unless willBreak
       newEntity = EntityType.new('class', extension.extendedEntityName, [], nil, nil, nil, nil)
       newEntity.extensions << extension
       entities << newEntity
     end
 
-    extension.inheritedEntities.each { |inheritedEntity|
+    extension.inheritedEntities.each do |inheritedEntity|
       willBreak = false
-      entities.each { |entity|
-        if inheritedEntity == entity.name
-          extension.protocols << entity
-          willBreak = true
-          break
-        end
-      }
-
-      if !willBreak
-        newEntity = EntityType.new('protocol', inheritedEntity, [], nil, nil, nil, nil)
-        extension.protocols << newEntity
-        entities << newEntity
+      entities.each do |entity|
+        next unless inheritedEntity == entity.name
+        extension.protocols << entity
+        willBreak = true
+        break
       end
-    }
-  }
+
+      next if willBreak
+      newEntity = EntityType.new('protocol', inheritedEntity, [], nil, nil, nil, nil)
+      extension.protocols << newEntity
+      entities << newEntity
+    end
+  end
 end
 
-def updateEntitiesJSONStringInScript entitiesStrings, scriptFileName
+def updateEntitiesJSONStringInScript(entitiesStrings, scriptFileName)
   # scriptTemplateString
   string = 'var entities = $entities '
   string.gsub! '$entities', entitiesStrings
   File.write scriptFileName, string
 end
 
-def openFile fileName
-  system %{open "#{fileName}"}
+def openFile(fileName)
+  system %(open "#{fileName}")
 end

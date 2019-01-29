@@ -21,10 +21,6 @@ parser = OptionParser.new do |options|
 		puts options
 		exit
 	end
-
-  options.on('-f', '--file', 'Writes the log to a file') do
-		Logger.startLoggingToFile
-	end
 end
 
 parser.parse!

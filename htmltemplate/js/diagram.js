@@ -52,7 +52,7 @@ function createDiagram() {
 
     nodes.push({
       id: entity.id,
-      font: { multi: "html", size: 12 },
+      font: { multi: "html", size: 12 , color: colorText},
       label: networkLabel(entity),
       color: color(entity.typeString),
       shape: "box"
@@ -62,7 +62,7 @@ function createDiagram() {
       edges.push({
         from: entity.superClass,
         to: entity.id,
-        color: colorSuperClass,
+        color: edgeColorSuperClass,
         label: "inherits",
         arrows: { from: true }
       });
@@ -75,7 +75,7 @@ function createDiagram() {
       entity.extensions,
       length,
       "extends",
-      colorExtension,
+      edgeColorExtension,
       { from: true }
     );
     var proEdges = getEdges(
@@ -83,7 +83,7 @@ function createDiagram() {
       entity.protocols,
       length,
       "conforms to",
-      colorProtocol,
+      edgeColorProtocol,
       { to: true }
     );
     var conEdges = getEdges(
@@ -91,7 +91,7 @@ function createDiagram() {
       entity.containedEntities,
       length,
       "contained in",
-      colorContainedIn,
+      edgeColorContainedIn,
       { from: true }
     );
 

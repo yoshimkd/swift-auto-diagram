@@ -1,3 +1,5 @@
+
+// Fields and methods
 function itemsString(items) {
   if (items == undefined || items.count <= 0) {
     return "";
@@ -10,7 +12,7 @@ function itemsString(items) {
 
       // UML static members and methods should be underlined
       const nameString =
-        x.type == "instance" ? x.name : x.name.replace(/ /g, "_");
+        x.type == "instance" ? x.name : "_" + x.name.replace(/ /g, "_") + "_";
 
       return accessString + " " + nameString;
     })
@@ -40,19 +42,19 @@ function networkLabel(entity) {
 function color(typeString) {
   switch (typeString) {
     case "class":
-      return colorLightBlue;
+      return colorClass;
       break;
     case "struct":
-      return colorLightOrange;
+      return colorStruct;
       break;
     case "enum":
-      return colorLightYellow;
+      return colorEnum;
       break;
     case "protocol":
-      return colorLightGreen;
+      return colorProtocol;
       break;
     case "extension":
-      return colorLightGreenExtension;
+      return colorExtension;
       break;
     default:
       return colorPinkErrorOccured;

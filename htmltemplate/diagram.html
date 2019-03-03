@@ -1,67 +1,70 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Class Diagram Sample</title>
-    <link type="text/css" rel="stylesheet" href="css/diagram.css"/>
-    <link type="text/css" rel="stylesheet" href="css/vis.min.css"/>
+    <link type="text/css" rel="stylesheet" href="css/diagram.css" />
+    <link type="text/css" rel="stylesheet" href="css/vis.min.css" />
     <script src="js/lib/jquery-3.1.1.min.js"></script>
     <script src="js/lib/mustache.min.js"></script>
     <script src="js/lib/vis.min.js"></script>
+
+    <script src="js/parser-output.js"></script>
+
+    <script src="js/colors.js"></script>
+    <script src="js/entity.js"></script>
     <script src="js/diagram.js"></script>
-</head>
-<body onload="bindValues()">
-    <div id="entities">
-    </div>
-    <div id="classDiagram">
-    </div>
+  </head>
+  <body onload="bindValues()">
+    <div id="entities"></div>
+    <div id="classDiagram"></div>
     <div class="loading-overlay">
-        <div class='uil-ripple-css'>
-            <div></div>
-            <div></div>
-        </div>
+      <div class="uil-ripple-css">
+        <div></div>
+        <div></div>
+      </div>
     </div>
     <script id="case" type="x-tmpl-mustache">
-        <p class="entity-case case">
-            <span class="entity-case-name">.{{name}}</span>
-        </p>
+      <p class="entity-case case">
+          <span class="entity-case-name">.{{name}}</span>
+      </p>
     </script>
     <script id="property" type="x-tmpl-mustache">
-        <p class="entity-property entity-property-{{accessLevel}}" title="{{accessLevel}} property">
-            <span class="entity-property-type">{{type}}</span>
-            <span class="entity-property-name">{{name}}</span>
-        </p>
+      <p class="entity-property entity-property-{{accessLevel}}" title="{{accessLevel}} property">
+          <span class="entity-property-type">{{type}}</span>
+          <span class="entity-property-name">{{name}}</span>
+      </p>
     </script>
     <script id="method" type="x-tmpl-mustache">
-        <p class="entity-method entity-method-{{accessLevel}}" title="{{accessLevel}} method">
-            <span class="entity-method-type">{{type}}</span>
-            <span class="entity-method-name">{{name}}</span>
-        </p>
+      <p class="entity-method entity-method-{{accessLevel}}" title="{{accessLevel}} method">
+          <span class="entity-method-type">{{type}}</span>
+          <span class="entity-method-name">{{name}}</span>
+      </p>
     </script>
     <script id="entity" type="x-tmpl-mustache">
-        <div class="entity" xmlns="http://www.w3.org/1999/xhtml">
-            <div class="entity-{{type}}">
-                <p class="type">{{type}}</p>
-                <p>{{name}}</p>
-            </div>
-            {{#props}}
-            <section class="entity-properties">
-                {{{props}}}
-            </section>
-            {{/props}}
-            {{#methods}}
-            <section class="entity-methods">
-                {{{methods}}}
-            </section>
-            {{/methods}}
-            {{#cases}}
-            <section class="entity-cases">
-                {{{cases}}}
-            </section>
-            {{/cases}}
-        </div>
+      <div class="entity" xmlns="http://www.w3.org/1999/xhtml">
+          <div class="entity-{{type}}">
+              <p class="type">{{type}}</p>
+              <p>{{name}}</p>
+          </div>
+          {{#props}}
+          <section class="entity-properties">
+              {{{props}}}
+          </section>
+          {{/props}}
+          {{#methods}}
+          <section class="entity-methods">
+              {{{methods}}}
+          </section>
+          {{/methods}}
+          {{#cases}}
+          <section class="entity-cases">
+              {{{cases}}}
+          </section>
+          {{/cases}}
+      </div>
     </script>
     <script id="data" type="x-tmpl-mustache">
-        <img class="entity-image" src="{{{data}}}" xmlns="http://www.w3.org/1999/xhtml"/>
+      <img class="entity-image" src="{{{data}}}" xmlns="http://www.w3.org/1999/xhtml"/>
     </script>
-</body>
+  </body>
 </html>

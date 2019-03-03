@@ -1,5 +1,4 @@
 class Entity
-
   @@id = 1
 
   attr_accessor :id
@@ -37,29 +36,18 @@ class Entity
       'typeString' => @typeString
     }
 
-    if !@properties.empty?
-      hash['properties'] = @properties
-    end
+    hash['properties'] = @properties unless @properties.empty?
 
-    if !@methods.empty?
-      hash['methods'] = @methods
-    end
+    hash['methods'] = @methods unless @methods.empty?
 
-    if !@protocols.empty?
-      hash['protocols'] = @protocols.map { |protocol|
-        protocol.id
-      }
-    end
+    hash['protocols'] = @protocols.map(&:id) unless @protocols.empty?
 
-    if !@cases.empty?
-      hash['cases'] = @cases
-    end
+    hash['cases'] = @cases unless @cases.empty?
 
-    return hash
+    hash
   end
 
-  def to_json(*args)
-    return JSON.pretty_generate(to_hash)
+  def to_json(*_args)
+    JSON.pretty_generate(to_hash)
   end
-
 end

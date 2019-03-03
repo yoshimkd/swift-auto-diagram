@@ -1,5 +1,4 @@
 class EntityType < Entity
-
   attr_accessor :name
   attr_accessor :startIndex
   attr_accessor :contentsStartIndex
@@ -21,28 +20,19 @@ class EntityType < Entity
     @extensions = []
   end
 
-  def to_json(*args)
+  def to_json(*_args)
     hash = to_hash
 
     hash['name'] = @name
 
-    if @superClass
-      hash['superClass'] = @superClass.id
+    hash['superClass'] = @superClass.id if @superClass
+
+    unless @containedEntities.empty?
+      hash['containedEntities'] = @containedEntities.map(&:id)
     end
 
-    if !@containedEntities.empty?
-      hash['containedEntities'] = @containedEntities.map { |containedEntity|
-        containedEntity.id
-      }
-    end
+    hash['extensions'] = @extensions.map(&:id) unless @extensions.empty?
 
-    if !@extensions.empty?
-      hash['extensions'] = @extensions.map { |extension|
-        extension.id
-      }
-    end
-
-    return JSON.pretty_generate(hash)
+    JSON.pretty_generate(hash)
   end
-
 end

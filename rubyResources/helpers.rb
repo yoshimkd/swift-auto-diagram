@@ -107,7 +107,7 @@ end
 
 def allExtensions(codeString)
   extensions = []
-  extensionRegex = /extension\s+(?!(var|open|public|internal|fileprivate|private|func))(?<extendedEntityName>\w+)(?<protocols>(\s*:.+?)?)(?<generics>(\s+where\s+.+?)?)(?<contentsCodeString>{(?>[^{}]|\g<contentsCodeString>)*})/
+  extensionRegex = /extension\s+(?!(var|open|public|internal|fileprivate|private|func))(?<extendedEntityName>\w+)\s*(?<protocols>(:.+?)?)\s*(?<generics>(where\s+.+?)?)(?<contentsCodeString>{(?>[^{}]|\g<contentsCodeString>)*})/
 
   codeString.scan(extensionRegex) do
     matchData = Regexp.last_match

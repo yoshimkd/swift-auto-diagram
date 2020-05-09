@@ -228,7 +228,7 @@ end
 
 def allProtocolInits(codeString)
   methods = []
-  methodRegex = /\binit\(((?!static|var|weak|unowned|func|init)[\S\s])+/
+  methodRegex = /\binit\??\(((?!static|var|weak|unowned|func|init)[\S\s])+/
 
   methodsStrings = []
 

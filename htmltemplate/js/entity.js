@@ -26,9 +26,12 @@ function networkLabel(entity) {
     return "Undefined";
   }
 
+  const name = typeof entity.name !== "undefined"
+    ? entity.name : entity.extendedEntityName
+
   return (
     "<b>" +
-    entity.name +
+    name +
     ":</b><i>" +
     entity.typeString +
     "</i>" +

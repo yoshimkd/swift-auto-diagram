@@ -6,4 +6,12 @@ class EntityExtension < Entity
 
     @extendedEntityName = extendedEntityName
   end
+
+  def to_json(*_args)
+    hash = to_hash
+
+    hash['extendedEntityName'] = @extendedEntityName
+    JSON.pretty_generate(hash)
+  end
+
 end

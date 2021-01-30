@@ -1,3 +1,8 @@
+//import  {ignoreEntities} from './config.js'
+const ignoreEntities = ["String", "Int", "Double", "Float", "Bool", "CGPoint", "CGSize",
+"NSObject", "AnyObject", "Error", "Date",
+"class","Codable", "DeCodable", "Encodable", "Equatable","CodingKeys"];
+
 var renderedEntities = [];
 
 var templates = {
@@ -50,12 +55,19 @@ function createDiagram() {
 
     maxEdgeLength = Math.max(maxEdgeLength, length);
 
+    //deClutter the entities on the diagram
+    var entityName  = String(entity.name) 
+    if (ignoreEntities.includes(entity.name) || entityName.startsWith('UI') ) {
+      continue;
+    }
+
     nodes.push({
       id: entity.id,
       font: { multi: "html", size: 12 , color: colorText},
       label: networkLabel(entity),
       color: color(entity.typeString),
-      shape: "box"
+      shape: "box",
+      size: 200
     });
 
     if (entity.superClass != undefined && entity.superClass > 0) {

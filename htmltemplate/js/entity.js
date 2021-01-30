@@ -1,3 +1,5 @@
+//import  { isContextDiagram } from './config.js'
+const isContextDiagram  = false;
 
 // Fields and methods
 function itemsString(items) {
@@ -29,16 +31,23 @@ function networkLabel(entity) {
   const name = typeof entity.name !== "undefined"
     ? entity.name : entity.extendedEntityName
 
+
+
+    if (! Boolean(isContextDiagram)) {
+      entityMemberDetails = "\n ----------------- \n" +
+      itemsString(entity.properties) +
+      "\n ----------------- \n" +
+      itemsString(entity.methods)
+    } else {
+      entityMemberDetails = ""
+    }
+
   return (
     "<b>" +
     name +
     ":</b><i>" +
     entity.typeString +
-    "</i>" +
-    "\n ----------------- \n" +
-    itemsString(entity.properties) +
-    "\n ----------------- \n" +
-    itemsString(entity.methods)
+    "</i>" + entityMemberDetails
   );
 }
 

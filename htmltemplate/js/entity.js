@@ -1,5 +1,5 @@
 //import  { isContextDiagram } from './config.js'
-const isContextDiagram  = false;
+const isContextDiagram  = true;
 
 // Fields and methods
 function itemsString(items) {

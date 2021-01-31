@@ -1,6 +1,14 @@
-//import  { isContextDiagram } from './config.js'
-const isContextDiagram  = true;
 
+
+{/* <script type="text/javascript" src="./configs.json"></script>
+var configsData = JSON.parse(configs)
+var isContextDiagram = configsData.isContextDiagram;  */}
+
+
+
+var isContextDiagram  = false; //JSON.stringify("isContextDiagram")
+
+console.log("isContextDiagram : " + isContextDiagram)
 // Fields and methods
 function itemsString(items) {
   if (items == undefined || items.count <= 0) {
@@ -33,7 +41,7 @@ function networkLabel(entity) {
 
 
 
-    if (! Boolean(isContextDiagram)) {
+    if (!isContextDiagram) {
       entityMemberDetails = "\n ----------------- \n" +
       itemsString(entity.properties) +
       "\n ----------------- \n" +
@@ -48,6 +56,21 @@ function networkLabel(entity) {
     ":</b><i>" +
     entity.typeString +
     "</i>" + entityMemberDetails
+  );
+}
+
+// { id: 3, font: { multi: 'html', size: 20 }, label: '<b>This</b> is an\n<i>html</i> <b><i>multi-</i>font</b> <code>label</code>', x: 40, y: 40 },
+function networkTitle(entity) {
+  if (entity == undefined) {
+    return "Undefined";
+  }
+  const name = typeof entity.name !== "undefined"
+    ? entity.name : entity.extendedEntityName
+  return (
+    "<b>" +
+    name +
+    ":</b><i>" +
+    entity.typeString 
   );
 }
 

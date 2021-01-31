@@ -64,6 +64,7 @@ function createDiagram() {
     nodes.push({
       id: entity.id,
       font: { multi: "html", size: 12 , color: colorText},
+      title: networkTitle(entity),
       label: networkLabel(entity),
       color: color(entity.typeString),
       shape: "box",
@@ -143,8 +144,15 @@ function createDiagram() {
     interaction: {
       navigationButtons: true,
       keyboard: true
+    },
+    interaction: { hover: true },
+    manipulation: {
+      enabled: true
     }
   };
+
+
+
 
   network = new vis.Network(container, data, options);
   // network.clusterByConnection(1);

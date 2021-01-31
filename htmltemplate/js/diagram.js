@@ -151,9 +151,6 @@ function createDiagram() {
     }
   };
 
-
-
-
   network = new vis.Network(container, data, options);
   // network.clusterByConnection(1);
 

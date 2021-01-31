@@ -6,7 +6,7 @@ var isContextDiagram = configsData.isContextDiagram;  */}
 
 
 
-var isContextDiagram  = false; //JSON.stringify("isContextDiagram")
+var isContextDiagram  = true; //JSON.stringify("isContextDiagram")
 
 console.log("isContextDiagram : " + isContextDiagram)
 // Fields and methods

@@ -127,6 +127,12 @@ function createDiagram() {
 
   // tested at http://visjs.org/examples/network/physics/physicsConfiguration.html
   let options = {
+    shapeProperties: {
+      widthConstraint: {
+        minimum: 50,
+        maximum: 100
+      }
+    },
     edges: {
       smooth: false
     },
@@ -143,9 +149,9 @@ function createDiagram() {
     },
     interaction: {
       navigationButtons: true,
-      keyboard: true
+      keyboard: true,
+      hover: true
     },
-    interaction: { hover: true },
     manipulation: {
       enabled: true
     }

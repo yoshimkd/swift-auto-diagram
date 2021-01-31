@@ -53,7 +53,7 @@ function networkLabel(entity) {
   return (
     "<b>" +
     name +
-    ":</b><i>" +
+    ":</b> <i>" +
     entity.typeString +
     "</i>" + entityMemberDetails
   );
@@ -69,7 +69,7 @@ function networkTitle(entity) {
   return (
     "<b>" +
     name +
-    ":</b><i>" +
+    ":</b> <i>" +
     entity.typeString 
   );
 }

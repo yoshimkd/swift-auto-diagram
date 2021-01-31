@@ -68,7 +68,9 @@ function createDiagram() {
       label: networkLabel(entity),
       color: color(entity.typeString),
       shape: "box",
-      size: 200
+      size: 100,
+      widthConstraint: { maximum: 800 },
+      heightConstraint: 40
     });
 
     if (entity.superClass != undefined && entity.superClass > 0) {
@@ -127,12 +129,6 @@ function createDiagram() {
 
   // tested at http://visjs.org/examples/network/physics/physicsConfiguration.html
   let options = {
-    shapeProperties: {
-      widthConstraint: {
-        minimum: 50,
-        maximum: 100
-      }
-    },
     edges: {
       smooth: false
     },

@@ -1,14 +1,6 @@
 
+const isContextDiagram  = false
 
-{/* <script type="text/javascript" src="./configs.json"></script>
-var configsData = JSON.parse(configs)
-var isContextDiagram = configsData.isContextDiagram;  */}
-
-
-
-var isContextDiagram  = true; //JSON.stringify("isContextDiagram")
-
-console.log("isContextDiagram : " + isContextDiagram)
 // Fields and methods
 function itemsString(items) {
   if (items == undefined || items.count <= 0) {

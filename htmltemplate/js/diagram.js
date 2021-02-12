@@ -1,4 +1,3 @@
-//import  {ignoreEntities} from './config.js'
 const ignoreEntities = ["String", "Int", "Double", "Float", "Bool", "CGPoint", "CGSize",
 "NSObject", "AnyObject", "Error", "Date",
 "class","Codable", "DeCodable", "Encodable", "Equatable","CodingKeys"];

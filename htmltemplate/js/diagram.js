@@ -62,14 +62,14 @@ function createDiagram() {
 
     nodes.push({
       id: entity.id,
-      font: { multi: "html", size: 12 , color: colorText},
+      font: { multi: "html", size: 150, color: colorText},
       title: networkTitle(entity),
       label: networkLabel(entity),
       color: color(entity.typeString),
       shape: "box",
-      size: 100,
-      widthConstraint: { maximum: 800 },
-      heightConstraint: 40
+      size: 900,
+      widthConstraint: { minimum: 400 * 2, maximum: 6000 },
+      heightConstraint: 200
     });
 
     if (entity.superClass != undefined && entity.superClass > 0) {
@@ -128,6 +128,15 @@ function createDiagram() {
 
   // tested at http://visjs.org/examples/network/physics/physicsConfiguration.html
   let options = {
+    nodes: {
+      shape: "box",
+      scaling: {
+        label: {
+          min: 600,
+          max: 600
+        },
+      },
+    },
     edges: {
       smooth: false
     },

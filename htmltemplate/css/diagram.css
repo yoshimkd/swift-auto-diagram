@@ -6,7 +6,7 @@ body { font-family: Courier, monospace; }
 div.entity {
     min-width: 200px;
     max-width: 400px;
-    font-size: 13px;
+    font-size: 18px;
     position: absolute;
 }
 .entity-class, .entity-property, .entity-method, .entity-extension, .entity-protocol, .entity-case, .entity-struct  {

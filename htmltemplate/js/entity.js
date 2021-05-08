@@ -1,4 +1,6 @@
 
+const isContextDiagram  = false
+
 // Fields and methods
 function itemsString(items) {
   if (items == undefined || items.count <= 0) {
@@ -29,16 +31,38 @@ function networkLabel(entity) {
   const name = typeof entity.name !== "undefined"
     ? entity.name : entity.extendedEntityName
 
+
+
+    if (!isContextDiagram) {
+      entityMemberDetails = "\n ----------------- \n" +
+      itemsString(entity.properties) +
+      "\n ----------------- \n" +
+      itemsString(entity.methods)
+    } else {
+      entityMemberDetails = ""
+    }
+
   return (
     "<b>" +
     name +
-    ":</b><i>" +
+    ":</b> <i>" +
     entity.typeString +
-    "</i>" +
-    "\n ----------------- \n" +
-    itemsString(entity.properties) +
-    "\n ----------------- \n" +
-    itemsString(entity.methods)
+    "</i>" + entityMemberDetails
+  );
+}
+
+// { id: 3, font: { multi: 'html', size: 20 }, label: '<b>This</b> is an\n<i>html</i> <b><i>multi-</i>font</b> <code>label</code>', x: 40, y: 40 },
+function networkTitle(entity) {
+  if (entity == undefined) {
+    return "Undefined";
+  }
+  const name = typeof entity.name !== "undefined"
+    ? entity.name : entity.extendedEntityName
+  return (
+    "<b>" +
+    name +
+    ":</b> <i>" +
+    entity.typeString 
   );
 }
 
